@@ -1,0 +1,31 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    nav 
+      a(href="/").header Members Only
+      if currentUser 
+        ul 
+          li.greeting Hello, #{currentUser.username}
+          li 
+            a(href="/new-post") New Post
+          if !currentUser.isMember 
+            li
+              a(href="/membership") Be a Member
+          
+          if !currentUser.isAdmin
+            li
+              a(href="/admin") Be an Admin
+          
+          li
+            a(href="/logout").logout Logout
+
+      else 
+        ul 
+          li 
+            a(href="login") Login
+          li 
+            a(href="sign-up") Sign Up 
+    block content
