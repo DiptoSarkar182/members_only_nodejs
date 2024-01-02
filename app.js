@@ -40,6 +40,9 @@ app.use(
     resave: false,
     saveUninitialized: true,
     store: MongoStore.create({ mongoUrl: mongoDB }),
+    // cookie: {
+    //   maxAge: 30000, // 30 seconds in milliseconds
+    // },
   })
 );
 

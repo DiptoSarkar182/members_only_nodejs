@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const {body, validationResult} = require('express-validator');
 const {createHash} = require('../passportJS/authentication');
+const passport = require('passport');
 
 
 exports.sign_up_get = (req,res,next)=>{
@@ -77,6 +78,21 @@ exports.sign_up_post = [
     },
   ];
 
+  exports.log_in_get = (req,res,next)=>{
+    return res.render("login-form", {
+        title: "Log In",
+        errors: req.flash("SignUpMessage"),
+    })
+  };
+
+  exports.log_in_post = passport.authenticate(
+    "local", {
+        successRedirect: "/",
+        failureRedirect: "/login",
+        failureFlash: true,
+    }
+  )
+
   exports.logout = (req,res,next)=>{
     req.logout((err)=>{
         if(err){
@@ -84,4 +100,66 @@ exports.sign_up_post = [
         }
         return res.redirect("/");
     })
-  }
+  };
+
+  exports.membership_get = (req,res,next)=>{
+    if(!req.user){
+      return res.redirect("/login");
+    }
+    return res.render("membership-form", {
+      title: "Be a vip member",
+    });
+  };
+
+  exports.membership_post = async (req, res, next) => {
+    if (!req.user) {
+      return res.redirect("/login");
+    }
+  
+    if (req.body.code !== process.env.MEMBERSHIP_CODE) {
+      return res.render("membership-form", {
+        title: "Be a member",
+        error: "Incorrect Code",
+      });
+    }
+    try {
+      const user = req.user;
+      user.isMember = true;
+      await user.save();
+  
+      return res.redirect("/");
+    } catch (err) {
+      return next(err);
+    }
+  };
+
+  exports.admin_get = (req,res,next)=>{
+    if(!req.user){
+      return res.redirect("/login");
+    }
+    return res.render("admin-form", {
+      title: "Become an admin",
+    })
+  };
+
+  exports.admin_post = async (req, res, next) => {
+    if (!req.user) {
+      return res.redirect("/login");
+    }
+    if (req.body.code !== process.env.ADMIN_CODE) {
+      return res.render("admin-form", {
+        title: "Be an Admin",
+        error: "Incorrect Code",
+      });
+    }
+    try {
+      const user = req.user;
+      user.isAdmin = true;
+      user.isMember = true;
+      await user.save();
+  
+      return res.redirect("/");
+    } catch (err) {
+      return next(err);
+    }
+  };
