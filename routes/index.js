@@ -20,5 +20,9 @@ router.post("/membership", userController.membership_post);
 
 router.get("/admin", userController.admin_get);
 router.post("/admin", userController.admin_post);
+router.get("/admin_panel", userController.admin_panel_get);
+router.post("/admin_panel", userController.admin_panel_post);
+
+router.get("/delete/:id", postController.delete_post);
 
 module.exports = router;

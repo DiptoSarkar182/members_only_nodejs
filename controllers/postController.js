@@ -67,4 +67,16 @@ exports.new_post_post = [
             return next(err);
         }
     },
-]
+];
+
+exports.delete_post = async (req, res, next) => {
+    if (!req.user || !req.user.isAdmin) {
+      return res.redirect("/");
+    }
+    try {
+      await Post.findByIdAndDelete(req.params.id);
+      return res.redirect("/");
+    } catch (err) {
+      return next(err);
+    }
+  };

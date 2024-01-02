@@ -8,7 +8,7 @@ html
       a(href="/").header Members Only
       if currentUser 
         ul 
-          li.greeting Hello, #{currentUser.username}
+          li.greeting Hello, #{currentUser.username}#{currentUser.isAdmin && currentUser.isMember ? ' (ADMIN)' : currentUser.isMember ? ' (VIP)' : ''}
           li 
             a(href="/new-post") New Post
           if !currentUser.isMember 
@@ -18,6 +18,10 @@ html
           if !currentUser.isAdmin
             li
               a(href="/admin") Be an Admin
+          
+          if currentUser.isAdmin
+            li
+              a(href="/admin_panel") Admin Panel
           
           li
             a(href="/logout").logout Logout

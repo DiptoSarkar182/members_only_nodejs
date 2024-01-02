@@ -1,0 +1,15 @@
+extends layout
+
+block content
+    h1= title 
+    if successMessage
+        p.success-message= successMessage
+    form(action="", method="POST")
+        label(for="field-type") Choose Field Type:
+        select(id="field-type" name="fieldType" required)
+            option(value="") Select...
+            option(value="admin") Admin
+            option(value="vip") VIP
+        label(for="key") Enter Key:
+        input(type="text" id="key" name="key" required)
+        button(type="submit") Submit

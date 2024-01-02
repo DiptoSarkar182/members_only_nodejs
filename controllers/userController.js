@@ -1,7 +1,10 @@
 const User = require('../models/user');
+const Vip = require('../models/vip');
+const Admin = require('../models/admin');
 const {body, validationResult} = require('express-validator');
 const {createHash} = require('../passportJS/authentication');
 const passport = require('passport');
+const { flash } = require('express-flash');
 
 
 exports.sign_up_get = (req,res,next)=>{
@@ -28,20 +31,35 @@ exports.sign_up_post = [
       .trim()
       .isLength({ min: 3, max: 20 })
       .escape(),
+
     body("lastname", "Lastname is required (3-18 characters) ")
       .trim()
       .isLength({ min: 2, max: 18 })
       .escape(),
+
+    body('email')
+    .optional({ checkFalsy: true })
+    .custom(async (value) => {
+      const user = await User.findOne({ username: value });
+      if (user) {
+        return await Promise.reject("Email already taken");
+      }
+      return true;
+    })
+    .isEmail().withMessage('Not a valid e-mail address'),
+
     body("password", "Password should be atleast 6 characters long")
       .trim()
       .isLength({ min: 6 })
       .escape(),
+
     body("confirmPassword").custom((value, { req }) => {
       if (value !== req.body.password) {
         throw new Error("Passwords do not match");
       }
       return true;
     }),
+
     async (req, res, next) => {
       const errors = validationResult(req);
   
@@ -51,6 +69,7 @@ exports.sign_up_post = [
           firstname: req.body.firstname,
           lastname: req.body.lastname,
           password: req.body.password,
+          email: req.body.email,
         });
         return res.render("sign-up-form", {
           title: "Create account",
@@ -66,6 +85,7 @@ exports.sign_up_post = [
           firstname: req.body.firstname,
           lastname: req.body.lastname,
           password: passwordHash,
+          email: req.body.email,
         }).save();
   
         await req.login(user, (err) => {
@@ -107,7 +127,7 @@ exports.sign_up_post = [
       return res.redirect("/login");
     }
     return res.render("membership-form", {
-      title: "Be a vip member",
+      title: "Be a VIP member",
     });
   };
 
@@ -115,13 +135,15 @@ exports.sign_up_post = [
     if (!req.user) {
       return res.redirect("/login");
     }
-  
-    if (req.body.code !== process.env.MEMBERSHIP_CODE) {
+    
+    const key = await Vip.findOne({ key: req.body.code });
+    if (!key) {
       return res.render("membership-form", {
-        title: "Be a member",
+        title: "Be a VIP member",
         error: "Incorrect Code",
       });
     }
+    
     try {
       const user = req.user;
       user.isMember = true;
@@ -146,7 +168,8 @@ exports.sign_up_post = [
     if (!req.user) {
       return res.redirect("/login");
     }
-    if (req.body.code !== process.env.ADMIN_CODE) {
+    const key = await Admin.findOne({ key: req.body.code });
+    if (!key) {
       return res.render("admin-form", {
         title: "Be an Admin",
         error: "Incorrect Code",
@@ -163,3 +186,33 @@ exports.sign_up_post = [
       return next(err);
     }
   };
+
+  exports.admin_panel_get = (req,res,next)=>{
+    if(!req.user){
+      return res.redirect("/login");
+    }
+    return res.render("admin-panel-form", {
+      title: "Create secret key for ADMIN or VIP",
+    })
+  };
+
+  exports.admin_panel_post = [
+    async (req, res, next) => {
+      try {
+        const { key, fieldType } = req.body;
+  
+        if (fieldType === 'admin') {
+          const admin = await new Admin({ key }).save();
+        } else if (fieldType === 'vip') {
+          const vip = await new Vip({ key }).save();
+        }
+  
+        return res.render("admin-panel-form", {
+          title: "Create secret key for ADMIN or VIP",
+          successMessage: "Inserted Successfully",
+        }); 
+      } catch (err) {
+        return next(err);
+      }
+    },
+  ];
