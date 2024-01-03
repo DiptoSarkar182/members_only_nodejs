@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&family=Oswald&family=Raleway&family=Roboto&display=swap');
 body {
   margin: 0px;
   background-color: #F4F4F9;
@@ -10,7 +11,7 @@ nav {
   justify-content: space-between;
   align-items: center;
   padding: 15px;
-  font-family: sans-serif;
+  font-family: 'Oswald', sans-serif;
   color: black;
   padding-left: 40px;
   padding-right: 40px;
@@ -37,9 +38,18 @@ nav ul li .logout:hover {
   color: #57a7f2;
 }
 .header {
-  font-family:  sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 35px;
-  color: black;
+  color: rgb(246, 241, 241);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(90deg, rgb(162, 94, 226) 0%, rgba(0, 0, 0, 1) 100%);
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  display: inline-block;
 }
 .form_container {
   margin: 30px auto 30px;
@@ -47,8 +57,7 @@ nav ul li .logout:hover {
   width: 400px;
   min-height: 500px;
   box-shadow: 5px 5px 8px black;
-  font-family:  monospace;
-  
+  font-family: 'Raleway', sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -64,7 +73,7 @@ nav ul li .logout:hover {
   justify-content: center;
 }
 .form_container button {
-  font-family: sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 22px;
   background-color: #F4F4F9;
   transition: 100ms;
@@ -120,7 +129,7 @@ nav ul li .logout:hover {
   margin-bottom: 6px;
 }
 .post_card .date {
-  font-family: sans-serif;
+  font-family: 'Lato', sans-serif;
   font-style: italic;
   font-size: 18px;
   opacity: .8;
