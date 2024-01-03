@@ -8,6 +8,6 @@ Welcome to the Members Only Node.js application! This project is built using the
   
 - **Post Management:** Registered users can create and view posts within the application.
 
-- **VIP and Admin Privileges:** Special privileges are reserved for VIP members and Admin users. VIP members and Admins have access to additional features such as viewing post authors, and Admins can delete posts.
+- **VIP and Admin Privileges:** Special privileges are reserved for VIP members and Admin users. VIP members and Admins have access to additional features such as viewing post authors, and Admins can delete posts. Admins can also use admin panel to create secret keys for both VIP and Admin users.  
 
 Live demo on <a href="https://members-only-nodejs.adaptable.app"> Adaptable.io</a>
