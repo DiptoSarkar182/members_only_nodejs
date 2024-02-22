@@ -1,6 +1,6 @@
 # members_only_nodejs
 
-Welcome to the Members Only Node.js application! This project is built using the Express.js framework and MongoDB for handling user sign-up, login, post storage, and managing access privileges. Live demo on 
+Welcome to the Members Only Node.js application! This project is built using the Express.js framework and MongoDB for handling user sign-up, login, post storage, and managing access privileges. Live demo on https://members-only-nodejs.onrender.com. If this link takes too long to load, try this one https://members-only-nodejs.adaptable.app/
 
 ## Features
 
