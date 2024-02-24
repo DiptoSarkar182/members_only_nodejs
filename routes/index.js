@@ -11,6 +11,7 @@ router.post("/sign-up", userController.sign_up_post);
 router.get("/login", userController.log_in_get);
 router.post("/login", userController.log_in_post);
 router.get("/logout", userController.logout);
+router.get("/demo-user", userController.demo_user_get);
 
 router.get("/new-post", postController.new_post_get);
 router.post("/new-post", postController.new_post_post);

@@ -127,7 +127,7 @@ exports.sign_up_post = [
       return res.redirect("/login");
     }
     return res.render("membership-form", {
-      title: "Be a VIP member",
+      title: "Become a VIP member",
     });
   };
 
@@ -139,7 +139,7 @@ exports.sign_up_post = [
     const key = await Vip.findOne({ key: req.body.code });
     if (!key) {
       return res.render("membership-form", {
-        title: "Be a VIP member",
+        title: "Become a VIP member",
         error: "Incorrect Code",
       });
     }
@@ -171,7 +171,7 @@ exports.sign_up_post = [
     const key = await Admin.findOne({ key: req.body.code });
     if (!key) {
       return res.render("admin-form", {
-        title: "Be an Admin",
+        title: "Become an Admin",
         error: "Incorrect Code",
       });
     }
@@ -195,6 +195,21 @@ exports.sign_up_post = [
       title: "Create secret key for ADMIN or VIP",
     })
   };
+
+  exports.demo_user_get = async(req,res,next)=>{
+    const demoUsername = "Demo_User";
+    const demoUser = await User.findOne({username: demoUsername});
+    if (!demoUser) {
+      // Handle case when demo user is not found
+      return res.redirect('/login');
+  }
+  req.logIn(demoUser, function(err) {
+      if (err) { 
+          return next(err); 
+      }
+      return res.redirect('/');
+  });
+  }
 
   exports.admin_panel_post = [
     async (req, res, next) => {
