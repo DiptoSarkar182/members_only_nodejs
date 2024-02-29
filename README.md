@@ -14,8 +14,8 @@ Welcome to the Members Only, where user can post anonymously. This project is bu
 
 ## Screenshots
 
-![Home Page](./public/images/screenshots/Capture1.PNG)
-![Profile Page](./public/images/screenshots/Capture2.PNG)
+![Home Page](./public/images/screenshots/s1.PNG)
+![Profile Page](./public/images/screenshots/s2.PNG)
 
 
 ## Installation
